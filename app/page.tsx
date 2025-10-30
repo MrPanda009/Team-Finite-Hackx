@@ -1,6 +1,6 @@
 import { ArrowRight, CheckCircle2, Zap, Shield, Globe, BarChart2, Users, Eye, Lock } from "lucide-react";
 import { Button } from "@/components/button";
-import { Card } from "@/components//card";
+import { Card } from "@/components/card";
 import { Badge } from "@/components/badge";
 import Link from 'next/link';
 
