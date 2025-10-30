@@ -111,11 +111,12 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (window.ethereum) {
-      window.ethereum.on("accountsChanged", (accounts: string[]) => {
-        if (accounts.length === 0) {
+      window.ethereum.on("accountsChanged", (accounts: unknown) => {
+        const addresses = accounts as string[];
+        if (addresses.length === 0) {
           disconnectWallet();
         } else {
-          setAccount(accounts[0]);
+          setAccount(addresses[0]);
         }
       });
 
