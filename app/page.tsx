@@ -146,7 +146,7 @@ export default function Home() {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-20">
-        <Card className="p-12 bg-gradient-primary text-primary-foreground text-center max-w-4xl mx-auto">
+        <Card className="p-12 bg-opacity40 text-primary-foreground text-center max-w-4xl mx-auto">
           <CheckCircle2 className="w-16 h-16 mx-auto mb-6 text-primary-foreground/80" />
           <h2 className="text-3xl font-bold mb-4">Ready to Ensure Transparency?</h2>
           <p className="text-lg text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
