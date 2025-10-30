@@ -1,22 +1,7 @@
-"use client";
-
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
-import { BrowserProvider, Contract } from "ethers";
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { BrowserProvider, Contract, formatEther, parseEther } from "ethers";
 import { CONTRACT_ADDRESS, CONTRACT_ABI, ROLES } from "@/config/contract";
 import { useToast } from "@/hooks/use-toast";
-
-// Define global Ethereum type (for TypeScript)
-declare global {
-  interface Window {
-    ethereum?: any;
-  }
-}
 
 interface Web3ContextType {
   account: string | null;
@@ -44,7 +29,6 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
   const [isNGO, setIsNGO] = useState(false);
   const { toast } = useToast();
 
-  // 🟩 CHECK USER ROLE FUNCTION
   const checkUserRole = async () => {
     if (!contract || !account) return;
 
@@ -62,15 +46,9 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
       setIsNGO(ngo);
     } catch (error) {
       console.error("Error checking user roles:", error);
-      toast({
-        title: "Role Fetch Error",
-        description: "Unable to verify user roles from the contract.",
-        variant: "destructive",
-      });
     }
   };
 
-  // 🟦 CONNECT WALLET
   const connectWallet = async () => {
     if (!window.ethereum) {
       toast({
@@ -83,34 +61,33 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
 
     try {
       const browserProvider = new BrowserProvider(window.ethereum);
-      await window.ethereum.request({ method: "eth_requestAccounts" });
+      const accounts = await browserProvider.send("eth_requestAccounts", []);
+      
+      if (accounts.length === 0) {
+        throw new Error("No accounts found");
+      }
+
       const signer = await browserProvider.getSigner();
-      const accountAddress = await signer.getAddress();
-      const contractInstance = new Contract(
-        CONTRACT_ADDRESS,
-        CONTRACT_ABI,
-        signer
-      );
+      const contractInstance = new Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 
       setProvider(browserProvider);
-      setAccount(accountAddress);
+      setAccount(accounts[0]);
       setContract(contractInstance);
 
       toast({
         title: "Wallet Connected",
-        description: `Connected to ${accountAddress.slice(0, 6)}...${accountAddress.slice(-4)}`,
+        description: `Connected to ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}`,
       });
     } catch (error: any) {
       console.error("Error connecting wallet:", error);
       toast({
         title: "Connection Failed",
-        description: error.message || "Failed to connect wallet.",
+        description: error.message || "Failed to connect wallet",
         variant: "destructive",
       });
     }
   };
 
-  // 🟥 DISCONNECT WALLET
   const disconnectWallet = () => {
     setAccount(null);
     setProvider(null);
@@ -119,43 +96,38 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
     setIsAuditor(false);
     setIsScanner(false);
     setIsNGO(false);
-
+    
     toast({
       title: "Wallet Disconnected",
       description: "Your wallet has been disconnected.",
     });
   };
 
-  // 🟨 REACT TO ACCOUNT / CONTRACT CHANGES
   useEffect(() => {
     if (account && contract) {
       checkUserRole();
     }
   }, [account, contract]);
 
-  // 🟩 HANDLE ACCOUNT + CHAIN CHANGES
   useEffect(() => {
-    if (!window.ethereum) return;
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", (accounts: string[]) => {
+        if (accounts.length === 0) {
+          disconnectWallet();
+        } else {
+          setAccount(accounts[0]);
+        }
+      });
 
-    const handleAccountsChanged = (accounts: string[]) => {
-      if (accounts.length === 0) {
-        disconnectWallet();
-      } else {
-        setAccount(accounts[0]);
-      }
-    };
-
-    const handleChainChanged = () => {
-      window.location.reload();
-    };
-
-    window.ethereum.on("accountsChanged", handleAccountsChanged);
-    window.ethereum.on("chainChanged", handleChainChanged);
+      window.ethereum.on("chainChanged", () => {
+        window.location.reload();
+      });
+    }
 
     return () => {
-      if (window.ethereum.removeListener) {
-        window.ethereum.removeListener("accountsChanged", handleAccountsChanged);
-        window.ethereum.removeListener("chainChanged", handleChainChanged);
+      if (window.ethereum) {
+        window.ethereum.removeAllListeners("accountsChanged");
+        window.ethereum.removeAllListeners("chainChanged");
       }
     };
   }, []);
@@ -181,7 +153,6 @@ export const Web3Provider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// 🟢 CUSTOM HOOK
 export const useWeb3 = () => {
   const context = useContext(Web3Context);
   if (context === undefined) {

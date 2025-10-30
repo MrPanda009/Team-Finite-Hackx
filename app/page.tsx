@@ -39,10 +39,10 @@ export default function Home() {
           </Badge>
           <h1 className="text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
             Transparency in
-            <span className="bg-gradient-primary bg-clip-text text-transparent"> Disaster Relief</span>
+            <span className="bg-gradient-primary bg-clip-text text-opacity50"> Disaster Relief</span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Track every dollar, verify every delivery. Our blockchain platform ensures complete transparency and accountability in
+            Track every Rupee, verify every delivery. Our blockchain platform ensures complete transparency and accountability in
             disaster aid distribution.
           </p>
           <div className="flex items-center justify-center gap-4">

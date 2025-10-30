@@ -24,13 +24,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <span className="text-xl font-bold text-foreground">AidChain</span>
             </Link>
             <nav className="flex items-center gap-6">
-              <Link href="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+              <Link href="/Dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
                 Dashboard
               </Link>
-              <Link href="/tracking" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+              <Link href="/Tracking" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
                 Tracking
               </Link>
-              <Link href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+              <Link href="/Features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
                 Features
               </Link>
             </nav>
