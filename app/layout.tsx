@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Link from 'next/link';
+import { Shield } from 'lucide-react';
 import { Home, Users, Settings, Mail } from 'lucide-react';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -14,39 +15,27 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className="min-h-screen flex flex-col bg-gradient-to-br from-slate-50 to-slate-100">
-        {/* Header */}
-        <header className="bg-white shadow-sm sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              {/* Logo */}
-              <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                    <span className="text-white font-bold text-xl">L</span>
-                  </div>
-                </div>
-                <span className="ml-3 text-xl font-bold text-gray-900">Logo</span>
-              </div>
-
-              {/* Navigation - Always Visible */}
-              <nav className="flex space-x-1">
-                {navLinks.map((link) => {
-                  const Icon = link.icon;
-                  return (
-                    <Link
-                      key={link.name}
-                      href={link.href}
-                      className="flex items-center px-3 py-2 text-sm font-medium text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-200"
-                    >
-                      <Icon className="w-4 h-4 mr-2" />
-                      <span className="hidden sm:inline">{link.name}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-            </div>
+       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="flex items-center gap-2">
+              <Shield className="w-8 h-8 text-primary" />
+              <span className="text-xl font-bold text-foreground">AidChain</span>
+            </Link>
+            <nav className="flex items-center gap-6">
+              <Link href="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+                Dashboard
+              </Link>
+              <Link href="/tracking" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+                Tracking
+              </Link>
+              <Link href="#features" className="text-sm font-medium text-muted-foreground hover:text-foreground transition">
+                Features
+              </Link>
+            </nav>
           </div>
-        </header>
+        </div>
+      </header>
 
         {/* Main Content */}
         <main className="flex-grow">
@@ -118,9 +107,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
                   Terms of Service
                 </a>
-                <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
+                <Link href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
                   Cookie Policy
-                </a>
+                </Link>
               </div>
             </div>
           </div>
