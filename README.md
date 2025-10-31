@@ -1,5 +1,4 @@
 # ReliefChain
-[![Ask DeepWiki](https://devin.ai/assets/askdeepwiki.png)](https://deepwiki.com/MrPanda009/Team-Finite-Hackx)
 
 AidChain is a blockchain-powered platform designed to bring complete transparency and accountability to disaster aid distribution. It leverages smart contracts and an immutable ledger to track every donation, verify every delivery, and ensure relief reaches those who need it most.
 
