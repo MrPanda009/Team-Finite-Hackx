@@ -1,7 +1,9 @@
+"use client";
+
 import { createContext, useContext, useEffect, useState } from "react";
 import { User, Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/navigation";
 
 type AuthContextType = {
   user: User | null;
@@ -23,7 +25,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [userRoles, setUserRoles] = useState<string[]>([]);
-  const navigate = useNavigate();
+  const router = useRouter();
 
   const fetchUserRoles = async (userId: string) => {
     const { data, error } = await supabase
@@ -69,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       password,
     });
     if (!error) {
-      navigate("/Dashboard");
+      router.push("/Dashboard");
     }
     return { error };
   };
@@ -92,7 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     await supabase.auth.signOut();
     setUserRoles([]);
-    navigate("/auth");
+    router.push("/auth");
   };
 
   const isAdmin = userRoles.includes("admin");

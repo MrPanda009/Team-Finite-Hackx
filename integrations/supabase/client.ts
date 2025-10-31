@@ -11,7 +11,9 @@ const SUPABASE_PUBLISHABLE_KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KE
 
 export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
-    storage: localStorage,
+    // Don't reference `localStorage` at module-evaluation time on the server
+    // (it isn't available during SSR/prerender). Use it only in the browser.
+    storage: typeof window !== "undefined" ? window.localStorage : undefined,
     persistSession: true,
     autoRefreshToken: true,
   }

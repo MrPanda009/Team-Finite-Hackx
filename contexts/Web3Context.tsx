@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { BrowserProvider, Contract, formatEther, parseEther } from "ethers";
 import { CONTRACT_ADDRESS, CONTRACT_ABI, ROLES } from "@/config/contract";

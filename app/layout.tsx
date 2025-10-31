@@ -1,6 +1,7 @@
 import './globals.css';
 import React from 'react';
 import Link from 'next/link';
+import { Web3Provider } from '@/contexts/Web3Context';
 import { Shield } from 'lucide-react';
 import WalletButton from '@/components/WalletButton';
 import { Home, Users, Settings, Mail } from 'lucide-react';
@@ -41,7 +42,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Main Content */}
         <main className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
+            <Web3Provider>{children}</Web3Provider>
           </div>
         </main>
 

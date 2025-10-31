@@ -1,5 +1,6 @@
 import '../globals.css';
 import React from 'react';
+import { AuthProvider } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { Shield } from 'lucide-react';
 import WalletButton from '@/components/WalletButton';
@@ -44,7 +45,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {/* Main Content */}
         <main className="flex-grow">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            {children}
+            <AuthProvider>{children}</AuthProvider>
           </div>
         </main>
 

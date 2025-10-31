@@ -4,7 +4,7 @@ import { Card } from "@/components/card";
 import { Badge } from "@/components/badge";
 import { Button } from "@/components/button";
 import { Shield, TrendingUp, Users, Package, ChevronRight, CheckCircle2, Clock, AlertCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import WalletButton from "@/components/WalletButton";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useContractData } from "@/hooks/useContractData";
@@ -117,7 +117,7 @@ const Dashboard = () => {
                   : "Connect wallet to view transaction history"}
               </p>
             </div>
-            <Link to="/tracking">
+            <Link href="/tracking">
               <Button variant="outline">
                 Track Assets
                 <ChevronRight className="w-4 h-4 ml-1" />
@@ -137,7 +137,7 @@ const Dashboard = () => {
               <p className="text-sm text-muted-foreground mb-4">
                 All transactions are recorded on the blockchain with complete transparency
               </p>
-              <Link to="/tracking">
+              <Link href="/tracking">
                 <Button variant="hero">
                   View Asset Tracking
                   <ChevronRight className="w-4 h-4 ml-1" />
